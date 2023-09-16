@@ -13,9 +13,15 @@ class MovieController extends AbstractController
     public function index(MovieDB $movieDB): Response
     {
         $popularMovies = $movieDB->getPopularMovies();
+        $nowPlayingMovies = $movieDB->getNowPlaying();
+        
+        // array_column is used to convert $movieDB->getAllGenres() to form id => name for later convenience
+        $genres = array_column($movieDB->getAllGenres(), 'name', 'id');
 
         return $this->render('movie/index.html.twig', [
-            'popularMovies' => $popularMovies
+            'popularMovies' => $popularMovies,
+            'nowPlayingMovies' => $nowPlayingMovies,
+            'genres' => $genres
         ]);
     }
 

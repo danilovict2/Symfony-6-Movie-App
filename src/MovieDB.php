@@ -24,4 +24,16 @@ class MovieDB
         $response = $this->client->request('GET', '/3/movie/popular');
         return $response->toArray()['results'];
     }
+
+    public function getAllGenres(): array
+    {
+        $response = $this->client->request('GET', '/3/genre/movie/list');
+        return $response->toArray()['genres'];
+    }
+
+    public function getNowPlaying(): array
+    {
+        $response = $this->client->request('GET', '/3/movie/now_playing');
+        return $response->toArray()['results'];
+    }
 }
