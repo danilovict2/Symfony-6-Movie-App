@@ -36,4 +36,14 @@ class MovieDB
         $response = $this->client->request('GET', '/3/movie/now_playing');
         return $response->toArray()['results'];
     }
+
+    public function getMovieDetails(int $movieId): array
+    {
+        $response = $this->client->request('GET', "/3/movie/$movieId", [
+            'query' => [
+                'append_to_response' => 'credits,videos,images'
+            ]
+        ]);
+        return $response->toArray();
+    }
 }

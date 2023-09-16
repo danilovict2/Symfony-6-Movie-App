@@ -9,25 +9,29 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
-    public function index(MovieDB $movieDB): Response
+    public function __construct(private MovieDB $movieDB)
     {
-        $popularMovies = $movieDB->getPopularMovies();
-        $nowPlayingMovies = $movieDB->getNowPlaying();
-        
-        // array_column is used to convert $movieDB->getAllGenres() to form id => name for later convenience
-        $genres = array_column($movieDB->getAllGenres(), 'name', 'id');
+    }
+
+    #[Route('/', name: 'homepage')]
+    public function index(): Response
+    {
+        $popularMovies = $this->movieDB->getPopularMovies();
+        $nowPlayingMovies = $this->movieDB->getNowPlaying();
 
         return $this->render('movie/index.html.twig', [
             'popularMovies' => $popularMovies,
             'nowPlayingMovies' => $nowPlayingMovies,
-            'genres' => $genres
         ]);
     }
 
-    #[Route('/movie/{id}', name: 'movie_show')]
-    public function show(): Response
+    #[Route('/movie/{id<\d+>}', name: 'movie_show')]
+    public function show(int $id): Response
     {
-        return $this->render('movie/show.html.twig');
+        $movie = $this->movieDB->getMovieDetails($id);
+
+        return $this->render('movie/show.html.twig', [
+            'movie' => $movie
+        ]);
     }
 }

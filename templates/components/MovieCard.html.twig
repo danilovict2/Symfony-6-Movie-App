@@ -14,9 +14,7 @@
 		</div>
 		<div class="text-gray-400 text-sm">
 			{% for genre in movie.genre_ids %}
-				{{ genres[genre] }}
-				{% if not loop.last %},
-				{% endif %}
+				{{ genres[genre] }}{% if not loop.last %},{% endif %}
 			{% endfor %}
 		</div>
 	</div>
