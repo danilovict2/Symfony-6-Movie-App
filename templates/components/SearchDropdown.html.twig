@@ -1,0 +1,30 @@
+<div class="relative mt-3 md:mt-0" {{ attributes }}>
+	<input type="search" class="bg-gray-800 text-sm rounded-full w-64 px-4 pl-8 py-1 focus:outline-none focus:shadow-outline" placeholder="Search" data-model="debounce(500)|query">
+	<div class="absolute top-0">
+		<svg class="fill-current w-4 text-gray-500 mt-2 ml-2" viewbox="0 0 24 24"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 01-1.42 1.4l-5.38-5.38a8 8 0 111.41-1.41zM10 16a6 6 0 100-12 6 6 0 000 12z"/></svg>
+	</div>
+
+    <div class="spinner top-0 right-0 mr-4 mt-3" data-loading></div>
+	<div class="z-50 absolute bg-gray-800 text-sm rounded w-64 mt-4">
+		{% if query|length > 2 %}
+			{% if this.searchResults|length > 0 %}
+				<ul>
+					{% for movie in this.searchResults %}
+						<li class="border-b border-gray-700">
+							<a href="{{ path('movie_show', {id: movie.id}) }}" class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150">
+								{% if movie.poster_path %}
+									<img src="{{ 'https://image.tmdb.org/t/p/w92/' ~ movie.poster_path }}" alt="poster" class="w-8">
+								{% else %}
+									<img src="https://via.placeholder.com/50x75" alt="poster" class="w-8">
+								{% endif %}
+								<span class="ml-4">{{ movie.title }}</span>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<div class="px-3 py-3">No results for "{{ query }}"</div>
+			{% endif %}
+		{% endif %}
+	</div>
+</div>

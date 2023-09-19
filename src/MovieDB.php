@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App;
 
@@ -45,5 +45,15 @@ class MovieDB
             ]
         ]);
         return $response->toArray();
+    }
+
+    public function getSearchResults(string $searchQuery): array
+    {
+        $response = $this->client->request('GET', '/3/search/movie', [
+            'query' => [
+                'query' => $searchQuery
+            ]
+        ]);
+        return $response->toArray()['results'];
     }
 }
