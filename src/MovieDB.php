@@ -56,4 +56,24 @@ class MovieDB
         ]);
         return $response->toArray()['results'];
     }
+
+    public function getPopularActors(int $page): array
+    {
+        $response = $this->client->request('GET', '/3/person/popular', [
+            'query' => [
+                'page' => $page
+            ]
+        ]);
+        return $response->toArray()['results'];
+    }
+
+    public function getActorDetails(int $actorId): array
+    {
+        $response = $this->client->request('GET', "/3/person/$actorId", [
+            'query' => [
+                'append_to_response' => 'external_ids,combined_credits'
+            ]
+        ]);
+        return $response->toArray();
+    }
 }
