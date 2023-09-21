@@ -31,13 +31,11 @@
 				<div class="mt-12">
 					<h4 class="text-white font-semibold">Featured Crew</h4>
 					<div class="flex mt-4">
-						{% for crew in movie.credits.crew %}
-							{% if loop.index <= 2 %}
-								<div class="mr-8">
-									<div>{{ crew.name }}</div>
-									<div class="text-sm text-gray-400">{{ crew.job }}</div>
-								</div>
-							{% endif %}
+						{% for crew in movie.credits.crew|slice(0,2) %}
+							<div class="mr-8">
+								<div>{{ crew.name }}</div>
+								<div class="text-sm text-gray-400">{{ crew.job }}</div>
+							</div>
 						{% endfor %}
 					</div>
 				</div>
@@ -84,36 +82,33 @@
 			<div class="container mx-auto px-4 py-16">
 				<h2 class="text-4xl font-semibold">Cast</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-					{% for cast in movie.credits.cast %}
-						{% if loop.index <= 5 %}
-							<div class="mt-8">
-								<a href="#">
-									<img src="{{ 'https://image.tmdb.org/t/p/w300/' ~ cast.profile_path }}" alt="actor" class="hover:opacity-75 transition ease-in-out duration-150">
-								</a>
-								<div class="mt-2">
-									<a href="#" class="text-lg mt-2 hover:text-gray:300">{{ cast.name }}</a>
-									<div class="text-sm text-gray-400">
-										{{ cast.character }}
-									</div>
+					{% for cast in movie.credits.cast|slice(0, 5) %}
+						<div class="mt-8">
+							<a href="#">
+								<img src="{{ 'https://image.tmdb.org/t/p/w300/' ~ cast.profile_path }}" alt="actor" class="hover:opacity-75 transition ease-in-out duration-150">
+							</a>
+							<div class="mt-2">
+								<a href="#" class="text-lg mt-2 hover:text-gray:300">{{ cast.name }}</a>
+								<div class="text-sm text-gray-400">
+									{{ cast.character }}
 								</div>
 							</div>
-						{% endif %}
+						</div>
 					{% endfor %}
 				</div>
 			</div>
 		</div>
+
 		<div class="movie-images">
 			<div class="container mx-auto px-4 py-16">
 				<h2 class="text-4xl font-semibold">Images</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-					{% for image in movie.images.backdrops %}
-						{% if loop.index <= 9 %}
-							<div class="mt-8">
-								<a href="#">
-									<img src="{{ 'https://image.tmdb.org/t/p/w500/' ~ image.file_path }}" alt="image1" class="hover:opacity-75 transition ease-in-out duration-150">
-								</a>
-							</div>
-						{% endif %}
+					{% for image in movie.images.backdrops|slice(0, 9) %}
+						<div class="mt-8">
+							<a href="#">
+								<img src="{{ 'https://image.tmdb.org/t/p/w500/' ~ image.file_path }}" alt="image1" class="hover:opacity-75 transition ease-in-out duration-150">
+							</a>
+						</div>
 					{% endfor %}
 				</div>
 			</div>
