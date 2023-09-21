@@ -1,17 +1,26 @@
-<div class="relative mt-3 md:mt-0" {{ attributes }}>
-	<input type="search" class="bg-gray-800 text-sm rounded-full w-64 px-4 pl-8 py-1 focus:outline-none focus:shadow-outline" placeholder="Search" data-model="debounce(500)|query">
+<div class="relative mt-3 md:mt-0" x-data="{ isOpen: true }" @click.away="isOpen = false" {{ attributes }}>
+	<input type="search" class="bg-gray-800 text-sm rounded-full w-64 px-4 pl-8 py-1 focus:outline-none focus:shadow-outline" placeholder="Search" data-model="debounce(500)|query" x-ref="search" @keydown.window="
+		            if (event.keyCode === 191) {
+		                event.preventDefault();
+		                $refs.search.focus();
+		            }
+		        " @focus="isOpen = true" @keydown="isOpen = true" @keydown.escape.window="isOpen = false" @keydown.shift.tab="isOpen = false">
 	<div class="absolute top-0">
 		<svg class="fill-current w-4 text-gray-500 mt-2 ml-2" viewbox="0 0 24 24"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 01-1.42 1.4l-5.38-5.38a8 8 0 111.41-1.41zM10 16a6 6 0 100-12 6 6 0 000 12z"/></svg>
 	</div>
 
-    <div class="spinner top-0 right-0 mr-4 mt-3" data-loading></div>
-	<div class="z-50 absolute bg-gray-800 text-sm rounded w-64 mt-4">
-		{% if query|length > 2 %}
+	<div class="spinner top-0 right-0 mr-4 mt-3" data-loading></div>
+	{% if query|length > 1 %}
+		<div class="z-50 absolute bg-gray-800 text-sm rounded w-64 mt-4" x-show.transition.opacity="isOpen">
 			{% if this.searchResults|length > 0 %}
 				<ul>
 					{% for movie in this.searchResults %}
 						<li class="border-b border-gray-700">
-							<a href="{{ path('movie_show', {id: movie.id}) }}" class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150">
+							<a 
+								href="{{ path('movie_show', {id: movie.id}) }}" 
+								class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150"
+								{% if loop.last %}@keydown.tab="isOpen = false"{% endif %}
+							>
 								{% if movie.poster_path %}
 									<img src="{{ 'https://image.tmdb.org/t/p/w92/' ~ movie.poster_path }}" alt="poster" class="w-8">
 								{% else %}
@@ -25,6 +34,6 @@
 			{% else %}
 				<div class="px-3 py-3">No results for "{{ query }}"</div>
 			{% endif %}
-		{% endif %}
-	</div>
+		</div>
+	{% endif %}
 </div>
