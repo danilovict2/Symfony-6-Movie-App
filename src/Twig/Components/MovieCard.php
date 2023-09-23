@@ -8,5 +8,4 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class MovieCard
 {
     public array $movie;
-    public array $genres;
 }
