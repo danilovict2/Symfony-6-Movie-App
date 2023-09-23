@@ -17,11 +17,11 @@ class MovieController extends AbstractController
     public function index(): Response
     {
         $popularMovies = $this->movieTMDB->getPopular();
-        $nowPlayingMovies = $this->movieTMDB->getTopRated();
+        $topRatedMovies = $this->movieTMDB->getTopRated();
 
         return $this->render('movie/index.html.twig', [
             'popularMovies' => $popularMovies,
-            'nowPlayingMovies' => $nowPlayingMovies,
+            'topRatedMovies' => $topRatedMovies,
         ]);
     }
 
