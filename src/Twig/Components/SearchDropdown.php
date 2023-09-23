@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components;
 
-use App\MovieDB;
+use App\TMDB\TMDB;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -15,7 +15,7 @@ final class SearchDropdown
     #[LiveProp(writable: true)]
     public string $query = '';
 
-    public function __construct(private MovieDB $movieDB)
+    public function __construct(private TMDB $movieDB)
     {
     }
 

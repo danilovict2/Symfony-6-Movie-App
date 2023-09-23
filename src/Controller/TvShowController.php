@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\MovieDB;
+use App\TMDB\TvShowTMDB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TvShowController extends AbstractController
 {
-    public function __construct(private MovieDB $movieDB)
+    public function __construct(private TvShowTMDB $tvShowTMDB)
     {
     }
 
     #[Route('/tv-shows', name: 'tv_shows')]
     public function index(): Response
     {
-        $popularTvShows = $this->movieDB->getPopularTvShows();
-        $topRatedTvShows = $this->movieDB->getTopRatedTvShows();
+        $popularTvShows = $this->tvShowTMDB->getPopular();
+        $topRatedTvShows = $this->tvShowTMDB->getTopRated();
 
         return $this->render('tv_show/index.html.twig', [
             'popularTvShows' => $popularTvShows,
@@ -28,8 +28,8 @@ class TvShowController extends AbstractController
     #[Route('/tv-show/{id<\d+>}', name: 'tv_show')]
     public function show(int $id): Response
     {
-        $tvShow = $this->movieDB->getTvShowDetails($id);
-        //dd($tvShow);
+        $tvShow = $this->tvShowTMDB->getDetails($id);
+    
         return $this->render('tv_show/show.html.twig', [
             'tvShow' => $tvShow
         ]);

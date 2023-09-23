@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
-use App\MovieDB;
+use App\TMDB\MovieTMDB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
-    public function __construct(private MovieDB $movieDB)
+    public function __construct(private MovieTMDB $movieTMDB)
     {
     }
 
     #[Route('/', name: 'homepage')]
     public function index(): Response
     {
-        $popularMovies = $this->movieDB->getPopularMovies();
-        $nowPlayingMovies = $this->movieDB->getNowPlaying();
+        $popularMovies = $this->movieTMDB->getPopular();
+        $nowPlayingMovies = $this->movieTMDB->getTopRated();
 
         return $this->render('movie/index.html.twig', [
             'popularMovies' => $popularMovies,
@@ -28,7 +28,7 @@ class MovieController extends AbstractController
     #[Route('/movie/{id<\d+>}', name: 'movie_show')]
     public function show(int $id): Response
     {
-        $movie = $this->movieDB->getMovieDetails($id);
+        $movie = $this->movieTMDB->getDetails($id);
 
         return $this->render('movie/show.html.twig', [
             'movie' => $movie
