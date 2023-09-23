@@ -76,4 +76,26 @@ class MovieDB
         ]);
         return $response->toArray();
     }
+
+    public function getPopularTvShows(): array
+    {
+        $response = $this->client->request('GET', '/3/tv/popular');
+        return $response->toArray()['results'];
+    }
+    
+    public function getTopRatedTvShows(): array
+    {
+        $response = $this->client->request('GET', '/3/tv/top_rated');
+        return $response->toArray()['results'];
+    }
+
+    public function getTvShowDetails(int $tvShowId): array
+    {
+        $response = $this->client->request('GET', "/3/tv/$tvShowId", [
+            'query' => [
+                'append_to_response' => 'credits,videos,images'
+            ]
+        ]);
+        return $response->toArray();
+    }
 }
