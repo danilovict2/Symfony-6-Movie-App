@@ -29,7 +29,7 @@ class TvShowController extends AbstractController
     public function show(int $id): Response
     {
         $tvShow = $this->movieDB->getTvShowDetails($id);
-
+        //dd($tvShow);
         return $this->render('tv_show/show.html.twig', [
             'tvShow' => $tvShow
         ]);
